@@ -2,6 +2,11 @@ name: "Test GCP"
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag name'
+        required: true
+        type: string
 
 jobs:
   build-push:
@@ -24,3 +29,9 @@ jobs:
           registry: europe-west1-docker.pkg.dev
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          platforms: linux/amd64
+          tags: europe-west1-docker.pkg.dev/centered-arbor-433023-q0/node-allora-worker-inference-base:${{ inputs.tag }}-huggingface
