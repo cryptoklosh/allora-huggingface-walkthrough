@@ -16,22 +16,28 @@ jobs:
       id-token: 'write'
     steps:
       - uses: actions/checkout@v4
-      - uses: 'google-github-actions/auth@v2'
-        id: auth
-        with:
-          token_format: 'access_token'
-          project_id: 'My First Project'
-          workload_identity_provider: 'projects/950976268382/locations/global/workloadIdentityPools/github/providers/github'
-          service_account: 'gha-19@centered-arbor-433023-q0.iam.gserviceaccount.com'
-      - name: Login to GCR
+      - name: Login to registry
         uses: docker/login-action@v3
         with:
-          registry: europe-west1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+          registry: ${{ vars.DOCKER__REGISTRY }}
+          username: ${{ secrets.DOCKER__USERNAME }}
+          password: ${{ secrets.DOCKER__PASSWORD }}
+      # - uses: 'google-github-actions/auth@v2'
+      #   id: auth
+      #   with:
+      #     token_format: 'access_token'
+      #     project_id: 'My First Project'
+      #     workload_identity_provider: 'projects/950976268382/locations/global/workloadIdentityPools/github/providers/github'
+      #     service_account: 'gha-19@centered-arbor-433023-q0.iam.gserviceaccount.com'
+      # - name: Login to GCR
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: europe-west1-docker.pkg.dev
+      #     username: oauth2accesstoken
+      #     password: ${{ steps.auth.outputs.access_token }}
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64
-          tags: europe-west1-docker.pkg.dev/centered-arbor-433023-q0/node-allora-worker-inference-base/node-allora-worker-inference-base:${{ inputs.tag }}-huggingface
+          tags: ${{ vars.DOCKER__REGISTRY }}/node-allora-worker-inference-base:${{ inputs.tag }}-huggingface
