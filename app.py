@@ -4,6 +4,7 @@ import json
 import pandas as pd
 import torch
 from chronos import ChronosPipeline
+import os
 
 # create our Flask app
 app = Flask(__name__)
@@ -50,7 +51,7 @@ def get_inference(token):
 
     headers = {
         "accept": "application/json",
-        "x-cg-demo-api-key": "<Your Coingecko API key>" # replace with your API key
+        "x-cg-demo-api-key": os.environ['COINGECKO__API_KEY']
     }
 
     response = requests.get(url, headers=headers)
