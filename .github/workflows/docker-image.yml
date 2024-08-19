@@ -34,4 +34,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64
-          tags: europe-west1-docker.pkg.dev/centered-arbor-433023-q0/node-allora-worker-inference-base:${{ inputs.tag }}-huggingface
+          tags: europe-west1-docker.pkg.dev/centered-arbor-433023-q0/node-allora-worker-inference-base/node-allora-worker-inference-base:${{ inputs.tag }}-huggingface
