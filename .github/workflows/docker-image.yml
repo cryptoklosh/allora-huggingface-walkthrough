@@ -1,4 +1,4 @@
-name: "Test GCP"
+name: "Build Docker"
 
 on:
   workflow_dispatch:
