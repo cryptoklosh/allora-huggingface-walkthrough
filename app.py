@@ -5,6 +5,7 @@ import pandas as pd
 import torch
 from chronos import ChronosPipeline
 import os
+import random
 
 # create our Flask app
 app = Flask(__name__)
@@ -73,8 +74,9 @@ def get_inference(token):
 
     try:
         forecast = pipeline.predict(context, prediction_length)  # shape [num_series, num_samples, prediction_length]
-        print(forecast[0].mean().item()) # taking the mean of the forecasted prediction
-        return Response(str(forecast[0].mean().item()), status=200)
+        result = forecast[0].mean().item() + random.randint(-50, 50)
+        print(result)
+        return Response(str(result), status=200)
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
 
